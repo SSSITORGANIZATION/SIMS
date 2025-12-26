@@ -1,2 +1,2 @@
-web: gunicorn SSSIT.wsgi
+web: gunicorn SSSIT.wsgi:application
 
