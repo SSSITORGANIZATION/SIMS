@@ -13,6 +13,12 @@ const TeamCredits = () => {
     const [currentTheme, setCurrentTheme] = useState('3d-theme'); // Default theme
     const [showAddForm, setShowAddForm] = useState(false);
     const [editingMember, setEditingMember] = useState(null);
+    const [showSecretCodeModal, setShowSecretCodeModal] = useState(false);
+    const [deleteTargetId, setDeleteTargetId] = useState(null);
+    const [secretCodeInput, setSecretCodeInput] = useState('');
+    const [showImageModal, setShowImageModal] = useState(false);
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [selectedImageName, setSelectedImageName] = useState('');
     const [teamMembers, setTeamMembers] = useState([
         {
             id: 1,
@@ -172,9 +178,32 @@ const TeamCredits = () => {
     };
 
     const handleDelete = (id) => {
-        if (window.confirm('Are you sure you want to delete this team member?')) {
-            setTeamMembers(prev => prev.filter(member => member.id !== id));
+        setDeleteTargetId(id);
+        setShowSecretCodeModal(true);
+        setSecretCodeInput('');
+    };
+
+    const handleSecretCodeConfirm = () => {
+        if (secretCodeInput === 'SSSIT@2025') {
+            setTeamMembers(prev => prev.filter(member => member.id !== deleteTargetId));
+            setShowSecretCodeModal(false);
+            setSecretCodeInput('');
+            setDeleteTargetId(null);
+        } else {
+            alert('Invalid secret code! Access denied.');
         }
+    };
+
+    const handleImageClick = (imageUrl, memberName) => {
+        setSelectedImage(imageUrl);
+        setSelectedImageName(memberName);
+        setShowImageModal(true);
+    };
+
+    const closeImageModal = () => {
+        setShowImageModal(false);
+        setSelectedImage(null);
+        setSelectedImageName('');
     };
 
     const resetForm = () => {
@@ -236,6 +265,7 @@ const TeamCredits = () => {
                                 <img
                                     src={member.image}
                                     alt={member.name}
+                                    onClick={() => handleImageClick(member.image, member.name)}
                                     onError={(e) => {
                                         // Fallback to colored initial
                                         e.target.style.display = 'none';
@@ -245,13 +275,13 @@ const TeamCredits = () => {
                                 {/* Fallback colored initial */}
                                 <div
                                     className="member-initial"
+                                    onClick={() => handleImageClick(member.image, member.name)}
                                     style={{
                                         display: 'none',
                                         alignItems: 'center',
                                         justifyContent: 'center',
                                         width: '120px',
                                         height: '120px',
-                                        borderRadius: '50%',
                                         background: 'linear-gradient(135deg, #302adc, #3e2ec9)',
                                         color: 'white',
                                         fontSize: '48px',
@@ -391,6 +421,65 @@ const TeamCredits = () => {
                                 </button>
                             </div>
                         </form>
+                    </div>
+                </div>
+            )}
+            {/* Secret Code Confirmation Modal */}
+            {showSecretCodeModal && (
+                <div className="secret-code-overlay" onClick={(e) => e.stopPropagation()}>
+                    <div className="secret-code-modal" onClick={(e) => e.stopPropagation()}>
+                        <div className="secret-code-header">
+                            <h3>🔐 Security Verification</h3>
+                            <button className="close-btn" onClick={() => {
+                                setShowSecretCodeModal(false);
+                                setSecretCodeInput('');
+                                setDeleteTargetId(null);
+                            }}>×</button>
+                        </div>
+                        <div className="secret-code-content">
+                            <p>Enter the secret code to delete this team member:</p>
+                            <input
+                                type="password"
+                                value={secretCodeInput}
+                                onChange={(e) => setSecretCodeInput(e.target.value)}
+                                placeholder="Enter secret code"
+                                className="secret-code-input"
+                                autoFocus
+                            />
+                            <div className="secret-code-actions">
+                                <button
+                                    className="cancel-secret-btn"
+                                    onClick={() => {
+                                        setShowSecretCodeModal(false);
+                                        setSecretCodeInput('');
+                                        setDeleteTargetId(null);
+                                    }}
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    className="confirm-secret-btn"
+                                    onClick={handleSecretCodeConfirm}
+                                >
+                                    Confirm Delete
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Image View Modal */}
+            {showImageModal && (
+                <div className="image-view-overlay" onClick={closeImageModal}>
+                    <div className="image-view-modal" onClick={(e) => e.stopPropagation()}>
+                        <div className="image-view-header">
+                            <h3>{selectedImageName}</h3>
+                            <button className="close-btn" onClick={closeImageModal}>×</button>
+                        </div>
+                        <div className="image-view-content">
+                            <img src={selectedImage} alt={selectedImageName} />
+                        </div>
                     </div>
                 </div>
             )}

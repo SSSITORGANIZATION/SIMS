@@ -16,17 +16,17 @@ const API_URLS = {
 const DeleteStudent = () => {
 
   // 🔔 TOASTER
-const [toast, setToast] = useState({
-  text: "",
-  type: "", // success | error | warning | info
-});
+  const [toast, setToast] = useState({
+    text: "",
+    type: "", // success | error | warning | info
+  });
 
-const showToast = (text, type = "success", timeout = 3000) => {
-  setToast({ text, type });
-  setTimeout(() => {
-    setToast({ text: "", type: "" });
-  }, timeout);
-};
+  const showToast = (text, type = "success", timeout = 3000) => {
+    setToast({ text, type });
+    setTimeout(() => {
+      setToast({ text: "", type: "" });
+    }, timeout);
+  };
 
   const [students, setStudents] = useState([]);
   const [query, setQuery] = useState("");
@@ -110,15 +110,14 @@ const showToast = (text, type = "success", timeout = 3000) => {
       {toast.text && (
         <div className={`app-toast ${toast.type}`}>
           <i
-            className={`bi ${
-              toast.type === "success"
+            className={`bi ${toast.type === "success"
                 ? "bi-check-circle-fill"
                 : toast.type === "error"
-                ? "bi-x-circle-fill"
-                : toast.type === "warning"
-                ? "bi-exclamation-triangle-fill"
-                : "bi-info-circle-fill"
-            }`}
+                  ? "bi-x-circle-fill"
+                  : toast.type === "warning"
+                    ? "bi-exclamation-triangle-fill"
+                    : "bi-info-circle-fill"
+              }`}
           />
           <span>{toast.text}</span>
           <button onClick={() => setToast({ text: "", type: "" })}>
@@ -126,14 +125,14 @@ const showToast = (text, type = "success", timeout = 3000) => {
           </button>
         </div>
       )}
-      
+
       <div className="card shadow-lg rounded-4">
         <div className="card-header bg-danger text-white text-center py-2 ">
           <h5 className="mb-0">Manage Students</h5>
         </div>
 
         <div className="card-body bg-light">
-        
+
 
           <div className="mb-3 text-center d-flex justify-content-center">
 

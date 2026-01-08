@@ -167,7 +167,7 @@
 .member-initial {
     width: 130px;
     height: 130px;
-    border-radius: 50%;
+    border-radius: 0;
     object-fit: cover;
     border: 5px solid transparent;
     background: linear-gradient(white, white) padding-box,
@@ -179,6 +179,7 @@
     transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
     transform: translateZ(20px) rotateX(0deg);
     animation: photoSpin 8s linear infinite;
+    cursor: pointer;
 }
 
 .member-initial {
@@ -779,5 +780,269 @@
     .cancel-btn,
     .submit-btn {
         width: 100%;
+    }
+}
+
+/* Secret Code Modal Styles */
+.secret-code-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10002;
+    backdrop-filter: blur(10px);
+}
+
+.secret-code-modal {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    border-radius: 20px;
+    padding: 2rem;
+    max-width: 450px;
+    width: 90%;
+    box-shadow:
+        0 25px 50px rgba(0, 0, 0, 0.5),
+        0 0 40px rgba(220, 53, 69, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(220, 53, 69, 0.3);
+    animation: slideIn3D 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.secret-code-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid rgba(220, 53, 69, 0.3);
+}
+
+.secret-code-header h3 {
+    color: #ffffff;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+    text-shadow: 0 2px 10px rgba(220, 53, 69, 0.5);
+}
+
+.secret-code-header .close-btn {
+    position: static;
+    width: 35px;
+    height: 35px;
+    font-size: 20px;
+    transform: none;
+    background: linear-gradient(135deg, #dc3545, #c82333);
+}
+
+.secret-code-header .close-btn:hover {
+    transform: scale(1.1) rotateZ(90deg);
+}
+
+.secret-code-content {
+    text-align: center;
+}
+
+.secret-code-content p {
+    color: #a8b2d1;
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.secret-code-input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(220, 53, 69, 0.3);
+    border-radius: 10px;
+    padding: 15px;
+    color: #ffffff;
+    font-size: 1.1rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    margin-bottom: 2rem;
+}
+
+.secret-code-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.secret-code-input:focus {
+    outline: none;
+    border-color: rgba(220, 53, 69, 0.6);
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 20px rgba(220, 53, 69, 0.3);
+}
+
+.secret-code-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.cancel-secret-btn,
+.confirm-secret-btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    transform: translateZ(5px);
+    min-width: 120px;
+}
+
+.cancel-secret-btn {
+    background: linear-gradient(135deg, #6c757d, #5a6268);
+    color: white;
+    box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
+}
+
+.cancel-secret-btn:hover {
+    background: linear-gradient(135deg, #5a6268, #495057);
+    transform: translateY(-2px) translateZ(10px);
+    box-shadow: 0 6px 20px rgba(108, 117, 125, 0.4);
+}
+
+.confirm-secret-btn {
+    background: linear-gradient(135deg, #dc3545, #c82333);
+    color: white;
+    box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+}
+
+.confirm-secret-btn:hover {
+    background: linear-gradient(135deg, #c82333, #bd2130);
+    transform: translateY(-2px) translateZ(10px);
+    box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4);
+}
+
+/* Image View Modal Styles */
+.image-view-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10003;
+    backdrop-filter: blur(10px);
+    cursor: pointer;
+}
+
+.image-view-modal {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    border-radius: 20px;
+    padding: 2rem;
+    max-width: 90%;
+    max-height: 90vh;
+    width: auto;
+    box-shadow:
+        0 25px 50px rgba(0, 0, 0, 0.5),
+        0 0 40px rgba(48, 42, 220, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(48, 42, 220, 0.3);
+    animation: slideIn3D 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    cursor: default;
+    overflow: hidden;
+}
+
+.image-view-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid rgba(48, 42, 220, 0.3);
+}
+
+.image-view-header h3 {
+    color: #ffffff;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin: 0;
+    text-shadow: 0 2px 10px rgba(48, 42, 220, 0.5);
+}
+
+.image-view-header .close-btn {
+    position: static;
+    width: 35px;
+    height: 35px;
+    font-size: 20px;
+    transform: none;
+}
+
+.image-view-header .close-btn:hover {
+    transform: scale(1.1) rotateZ(90deg);
+}
+
+.image-view-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-height: 70vh;
+    overflow: auto;
+}
+
+.image-view-content img {
+    max-width: 100%;
+    max-height: 70vh;
+    border-radius: 0;
+    object-fit: contain;
+    border: 3px solid transparent;
+    background: linear-gradient(white, white) padding-box,
+        linear-gradient(135deg, #302adc, #3e2ec9, #0f0289) border-box;
+    box-shadow:
+        0 20px 40px rgba(48, 42, 220, 0.4),
+        0 10px 20px rgba(48, 42, 220, 0.2),
+        0 0 30px rgba(48, 42, 220, 0.1);
+    transition: all 0.3s ease;
+}
+
+.image-view-content img:hover {
+    transform: scale(1.02);
+    box-shadow:
+        0 25px 50px rgba(48, 42, 220, 0.6),
+        0 15px 30px rgba(48, 42, 220, 0.4),
+        0 0 40px rgba(48, 42, 220, 0.3);
+}
+
+/* Responsive for new modals */
+@media (max-width: 768px) {
+    .secret-code-modal {
+        margin: 1rem;
+        padding: 1.5rem;
+        max-width: 95%;
+    }
+
+    .secret-code-header h3 {
+        font-size: 1.3rem;
+    }
+
+    .secret-code-actions {
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+
+    .cancel-secret-btn,
+    .confirm-secret-btn {
+        width: 100%;
+    }
+
+    .image-view-modal {
+        margin: 1rem;
+        padding: 1.5rem;
+        max-width: 95%;
+    }
+
+    .image-view-header h3 {
+        font-size: 1.1rem;
     }
 }

@@ -129,10 +129,10 @@ export default function SearchById() {
 
   return (
     <div style={{
-    width: "100%",
-    maxWidth: "100%",
-    overflowX: "hidden"  
-  }}>
+      width: "100%",
+      maxWidth: "100%",
+      overflowX: "hidden"
+    }}>
       <div className="card mt-0  w-100">
         <div className="card-header text-white text-center py-2 bg-primary">
           <h5 className="mb-0"> Search Students</h5>

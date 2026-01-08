@@ -119,35 +119,108 @@ const AdminLogin = () => {
 
   return (
     <div
-      className="w-100 h-100 d-flex justify-content-center align-items-center"
+      className="w-100 h-100 d-flex justify-content-center align-items-center admin-login-bg"
       style={{
-        position: "fixed",
+        position: "relative",
         top: 0,
         left: 0,
         fontFamily: "Poppins, sans-serif",
-        background: "#f2f5f9",
-        overflow: "hidden",     
+        overflow: "hidden",
+        perspective: "1000px",
       }}
     >
+      {/* Falling Software Language Logos */}
+      <div className="falling-logos-container">
+        <div className="falling-logo-java">
+          <div className="java-logo">☕</div>
+          <div className="java-name">Java</div>
+        </div>
+        <div className="falling-logo-python">
+          <div className="python-logo">🐍</div>
+          <div className="python-name">Python</div>
+        </div>
+        <div className="falling-logo-office">
+          <div className="office-logo">📊</div>
+          <div className="office-name">MS Office</div>
+        </div>
+        <div className="falling-logo-react">
+          <div className="react-logo">⚛️</div>
+          <div className="react-name">React</div>
+        </div>
+        <div className="falling-logo-javascript">
+          <div className="js-logo">JS</div>
+          <div className="js-name">JavaScript</div>
+        </div>
+        <div className="falling-logo-html">
+          <div className="html-logo">&lt;/&gt;</div>
+          <div className="html-name">HTML5</div>
+        </div>
+        <div className="falling-logo-css">
+          <div className="css-logo">{ }</div>
+          <div className="css-name">CSS3</div>
+        </div>
+        <div className="falling-logo-node">
+          <div className="node-logo">📦</div>
+          <div className="node-name">Node.js</div>
+        </div>
+        <div className="falling-logo-database">
+          <div className="db-logo">🗄️</div>
+          <div className="db-name">SQL</div>
+        </div>
+        <div className="falling-logo-git">
+          <div className="git-logo">🔀</div>
+          <div className="git-name">Git</div>
+        </div>
+        <div className="falling-logo-docker">
+          <div className="docker-logo">🐳</div>
+          <div className="docker-name">Docker</div>
+        </div>
+        <div className="falling-logo-aws">
+          <div className="aws-logo">☁️</div>
+          <div className="aws-name">AWS</div>
+        </div>
+        <div className="falling-logo-linux">
+          <div className="linux-logo">🐧</div>
+          <div className="linux-name">Linux</div>
+        </div>
+        <div className="falling-logo-angular">
+          <div className="angular-logo">🅰️</div>
+          <div className="angular-name">Angular</div>
+        </div>
+        <div className="falling-logo-vue">
+          <div className="vue-logo">💚</div>
+          <div className="vue-name">Vue.js</div>
+        </div>
+        <div className="falling-logo-php">
+          <div className="php-logo">🐘</div>
+          <div className="php-name">PHP</div>
+        </div>
+        <div className="falling-logo-ruby">
+          <div className="ruby-logo">💎</div>
+          <div className="ruby-name">Ruby</div>
+        </div>
+      </div>
       <div
-        className="p-4"
+        className="p-4 admin-login-card"
         style={{
           width: "480px",
-          borderRadius: "20px",
-          background: "rgba(255,255,255,0.55)",
-          boxShadow: "0 8px 32px rgba(0,0,0,0.15)",
-          backdropFilter: "blur(10px)",
+          transformStyle: "preserve-3d",
+          transform: "rotateY(0deg)",
         }}
       >
         <div className="text-center mb-3">
-          <img
-            src={logo}
-            alt="Logo"
-            style={{ height: 80, width: 300, objectFit: "contain" }}
-          />
+          <div className="logo-3d-container">
+            <img
+              src={logo}
+              alt="Logo"
+              className="admin-logo"
+              style={{ height: 80, width: 300, objectFit: "contain" }}
+            />
+          </div>
         </div>
 
-        <h3 className="text-center fw-bold text-primary">Hello Admin!</h3>
+        <h3 className="text-center fw-bold admin-title">Hello Admin!</h3>
+        <div className="subtitle-3d text-center mb-4">Welcome to the Future</div>
 
         {/* LOGIN */}
         <form onSubmit={handleLogin}>
@@ -155,7 +228,7 @@ const AdminLogin = () => {
             <label className="fw-semibold">Username</label>
             <input
               type="text"
-              className="form-control shadow-sm"
+              className="form-control shadow-sm admin-input"
               placeholder="Enter username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
@@ -166,7 +239,7 @@ const AdminLogin = () => {
             <label className="fw-semibold">Password</label>
             <input
               type="password"
-              className="form-control shadow-sm"
+              className="form-control shadow-sm admin-input"
               placeholder="Enter password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -175,27 +248,24 @@ const AdminLogin = () => {
 
           <button
             type="submit"
-            className="btn w-100 shadow"
+            className="btn w-100 shadow admin-login-btn"
             disabled={loading}
             style={{
-              background: "rgba(0,123,255,0.95)",
-              color: "white",
-              padding: "10px",
-              borderRadius: "10px",
-              fontWeight: "600",
+              transformStyle: "preserve-3d",
+              transform: "translateZ(20px)",
             }}
           >
-            {loading ? "Logging in..." : "Login"}
+            <span className="btn-text-3d">{loading ? "Logging in..." : "Login"}</span>
           </button>
         </form>
 
         {error && (
-          <p className="text-center text-danger mt-2 fw-semibold">{error}</p>
+          <p className="text-center text-danger mt-2 fw-semibold admin-error-message">{error}</p>
         )}
 
         <div className="text-center mt-2">
           <button
-            className="btn btn-link fw-semibold"
+            className="btn btn-link fw-semibold admin-forgot-link"
             onClick={() => setShowModal(true)}
           >
             Forgot Password?
@@ -214,7 +284,7 @@ const AdminLogin = () => {
           }}
         >
           <div
-            className="bg-white rounded shadow"
+            className="bg-white rounded shadow admin-reset-modal"
             style={{
               width: "400px",
               padding: "20px",
@@ -224,7 +294,7 @@ const AdminLogin = () => {
             <h4 className="fw-bold text-center">Reset Login Details</h4>
 
             {modalMessage && (
-              <p className="text-center fw-semibold text-primary">
+              <p className="text-center fw-semibold text-primary admin-success-message">
                 {modalMessage}
               </p>
             )}
@@ -234,12 +304,12 @@ const AdminLogin = () => {
                 <label className="fw-semibold">Enter your Gmail</label>
                 <input
                   type="email"
-                  className="form-control mb-3"
+                  className="form-control mb-3 admin-input"
                   placeholder="example@gmail.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
-                <button className="btn btn-primary w-100" onClick={handleSendOtp}>
+                <button className="btn btn-primary w-100 admin-modal-btn" onClick={handleSendOtp}>
                   Send OTP
                 </button>
               </>
@@ -250,13 +320,13 @@ const AdminLogin = () => {
                 <label className="fw-semibold">Enter OTP</label>
                 <input
                   type="text"
-                  className="form-control mb-3"
+                  className="form-control mb-3 admin-input"
                   placeholder="4-digit OTP"
                   value={otp}
                   onChange={(e) => setOtp(e.target.value)}
                 />
 
-                <button className="btn btn-success w-100" onClick={handleVerifyOtp}>
+                <button className="btn btn-success w-100 admin-modal-btn" onClick={handleVerifyOtp}>
                   Verify OTP
                 </button>
               </>
@@ -267,7 +337,7 @@ const AdminLogin = () => {
                 <label className="fw-semibold">New Username</label>
                 <input
                   type="text"
-                  className="form-control mb-3"
+                  className="form-control mb-3 admin-input"
                   value={resetUsername}
                   onChange={(e) => setResetUsername(e.target.value)}
                 />
@@ -275,13 +345,13 @@ const AdminLogin = () => {
                 <label className="fw-semibold">New Password</label>
                 <input
                   type="password"
-                  className="form-control mb-3"
+                  className="form-control mb-3 admin-input"
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
                 />
 
                 <button
-                  className="btn btn-primary w-100"
+                  className="btn btn-primary w-100 admin-modal-btn"
                   onClick={handlePasswordReset}
                 >
                   Update Login Details
@@ -290,7 +360,7 @@ const AdminLogin = () => {
             )}
 
             <button
-              className="btn btn-danger w-100 mt-3"
+              className="btn btn-danger w-100 mt-3 admin-modal-btn"
               onClick={() => {
                 setShowModal(false);
                 setStep(1);

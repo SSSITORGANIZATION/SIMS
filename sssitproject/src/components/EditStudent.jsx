@@ -56,16 +56,16 @@ export default function EditStudent() {
   }, []);
 
   const [toast, setToast] = useState({
-  text: "",
-  type: "", // success | error | warning | info
-});
+    text: "",
+    type: "", // success | error | warning | info
+  });
 
-const showToast = (text, type = "success", timeout = 3000) => {
-  setToast({ text, type });
-  setTimeout(() => {
-    setToast({ text: "", type: "" });
-  }, timeout);
-};
+  const showToast = (text, type = "success", timeout = 3000) => {
+    setToast({ text, type });
+    setTimeout(() => {
+      setToast({ text: "", type: "" });
+    }, timeout);
+  };
 
 
   const fetchStudents = async () => {
@@ -86,26 +86,26 @@ const showToast = (text, type = "success", timeout = 3000) => {
     setFormData((prev) => ({ ...prev, [id]: value }));
   };
 
-const handleImageUpload = async (e) => {
-  const file = e.target.files[0];
-  if (!file) return;
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
 
-  const webpFile = await convertToWebP(file);
+    const webpFile = await convertToWebP(file);
 
-  setFormData((prev) => ({ ...prev, image: webpFile }));
-  setPreview(URL.createObjectURL(webpFile));
-};
+    setFormData((prev) => ({ ...prev, image: webpFile }));
+    setPreview(URL.createObjectURL(webpFile));
+  };
 
 
 
- const handleCameraCapture = async (file, previewUrl) => {
-  // 🔥 Convert camera image to WebP
-  const webpFile = await convertToWebP(file);
+  const handleCameraCapture = async (file, previewUrl) => {
+    // 🔥 Convert camera image to WebP
+    const webpFile = await convertToWebP(file);
 
-  setFormData((prev) => ({ ...prev, image: webpFile }));
-  setPreview(URL.createObjectURL(webpFile));
-  setShowCamera(false);
-};
+    setFormData((prev) => ({ ...prev, image: webpFile }));
+    setPreview(URL.createObjectURL(webpFile));
+    setShowCamera(false);
+  };
 
 
   const filteredStudents = students.filter((s) => {
@@ -117,39 +117,39 @@ const handleImageUpload = async (e) => {
     );
   });
 
- const handleSelectStudent = (stu) => {
-  setEditingId(stu.id);
-  setShowForm(true);
+  const handleSelectStudent = (stu) => {
+    setEditingId(stu.id);
+    setShowForm(true);
 
-  setFormData({
-    image: null,
-    regno: stu.regno ?? "",
-    studentname: stu.studentname ?? "",
-    course: stu.course ?? "",
-    date_of_joining: stu.date_of_joining ?? "",
-    dob: stu.dob ?? "",
-    father_name: stu.father_name ?? "",
-    parent_contact: stu.parent_contact ?? "",
-    facultyname: stu.facultyname ?? "",
-    batch_started_date: stu.batch_started_date ?? "",
-    batchtime: stu.batchtime ?? "",
-    contact: stu.contact ?? "",
-    email: stu.email ?? "",
-    address: stu.address ?? "",
-    reason: stu.reason ?? "",
-    total_fees: stu.total_fees ?? "",
-  });
+    setFormData({
+      image: null,
+      regno: stu.regno ?? "",
+      studentname: stu.studentname ?? "",
+      course: stu.course ?? "",
+      date_of_joining: stu.date_of_joining ?? "",
+      dob: stu.dob ?? "",
+      father_name: stu.father_name ?? "",
+      parent_contact: stu.parent_contact ?? "",
+      facultyname: stu.facultyname ?? "",
+      batch_started_date: stu.batch_started_date ?? "",
+      batchtime: stu.batchtime ?? "",
+      contact: stu.contact ?? "",
+      email: stu.email ?? "",
+      address: stu.address ?? "",
+      reason: stu.reason ?? "",
+      total_fees: stu.total_fees ?? "",
+    });
 
-  // normalize image preview
-  let imageUrl = null;
-  if (stu.image) {
-    imageUrl = stu.image.startsWith("http")
-      ? stu.image
-      : `http://127.0.0.1:8000${stu.image}`;
-  }
+    // normalize image preview
+    let imageUrl = null;
+    if (stu.image) {
+      imageUrl = stu.image.startsWith("http")
+        ? stu.image
+        : `http://127.0.0.1:8000${stu.image}`;
+    }
 
-  setPreview(imageUrl);
-};
+    setPreview(imageUrl);
+  };
 
 
   const trimYear = (value) => {
@@ -159,63 +159,63 @@ const handleImageUpload = async (e) => {
     return p.join("-");
   };
 
- const handleUpdate = async (e) => {
-  e.preventDefault();
+  const handleUpdate = async (e) => {
+    e.preventDefault();
 
-  try {
-    const regNoGroup = students.filter(
-      (s) => s.regno === formData.regno
-    );
+    try {
+      const regNoGroup = students.filter(
+        (s) => s.regno === formData.regno
+      );
 
-    const updateAll = new FormData();
-    updateAll.append("studentname", formData.studentname);
-    updateAll.append("father_name",formData.father_name);
-    updateAll.append("contact", formData.contact);
-    updateAll.append("email", formData.email);
-    updateAll.append("parent_contact", formData.parent_contact);
+      const updateAll = new FormData();
+      updateAll.append("studentname", formData.studentname);
+      updateAll.append("father_name", formData.father_name);
+      updateAll.append("contact", formData.contact);
+      updateAll.append("email", formData.email);
+      updateAll.append("parent_contact", formData.parent_contact);
 
-    if (formData.image) {
-      updateAll.append("image", formData.image);
-    }
+      if (formData.image) {
+        updateAll.append("image", formData.image);
+      }
 
-    // 🔁 Update all same RegNo records
-    for (const stu of regNoGroup) {
+      // 🔁 Update all same RegNo records
+      for (const stu of regNoGroup) {
+        await axios.patch(
+          `${API_URLS.students}${stu.id}/`,
+          updateAll,
+          { headers: { "Content-Type": "multipart/form-data" } }
+        );
+      }
+
+      // 🔹 Update selected record only
+      const updateSingle = new FormData();
+      Object.keys(formData).forEach((key) => {
+        if (
+          !["contact", "email", "studentname", "father_name"].includes(key) &&
+          formData[key] !== null
+        ) {
+          updateSingle.append(key, formData[key]);
+        }
+      });
+
       await axios.patch(
-        `${API_URLS.students}${stu.id}/`,
-        updateAll,
+        `${API_URLS.students}${editingId}/`,
+        updateSingle,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
+
+      fetchStudents();
+      setFormData(initialForm());
+      setPreview(null);
+      setEditingId(null);
+      setShowForm(false);
+
+      showToast("Student updated successfully", "success");
+
+    } catch (err) {
+      showToast("Update failed", "error");
     }
-
-    // 🔹 Update selected record only
-    const updateSingle = new FormData();
-    Object.keys(formData).forEach((key) => {
-      if (
-        !["contact", "email", "studentname","father_name"].includes(key) &&
-        formData[key] !== null
-      ) {
-        updateSingle.append(key, formData[key]);
-      }
-    });
-
-    await axios.patch(
-      `${API_URLS.students}${editingId}/`,
-      updateSingle,
-      { headers: { "Content-Type": "multipart/form-data" } }
-    );
-
-    fetchStudents();
-    setFormData(initialForm());
-    setPreview(null);
-    setEditingId(null);
-    setShowForm(false);
-
-    showToast("Student updated successfully", "success");
-
-  } catch (err) {
-    showToast("Update failed", "error");
-  }
-};
+  };
 
 
   return (
@@ -227,24 +227,23 @@ const handleImageUpload = async (e) => {
 
         <div className="card-body ">
           {toast.text && (
-              <div className={`app-toast ${toast.type}`}>
-                <i
-                  className={`bi ${
-                    toast.type === "success"
-                      ? "bi-check-circle-fill"
-                      : toast.type === "error"
+            <div className={`app-toast ${toast.type}`}>
+              <i
+                className={`bi ${toast.type === "success"
+                    ? "bi-check-circle-fill"
+                    : toast.type === "error"
                       ? "bi-x-circle-fill"
                       : toast.type === "warning"
-                      ? "bi-exclamation-triangle-fill"
-                      : "bi-info-circle-fill"
+                        ? "bi-exclamation-triangle-fill"
+                        : "bi-info-circle-fill"
                   }`}
-                />
-                <span>{toast.text}</span>
-                <button onClick={() => setToast({ text: "", type: "" })}>
-                  <i className="bi bi-x-lg"></i>
-                </button>
-              </div>
-            )}
+              />
+              <span>{toast.text}</span>
+              <button onClick={() => setToast({ text: "", type: "" })}>
+                <i className="bi bi-x-lg"></i>
+              </button>
+            </div>
+          )}
 
           {/* SEARCH BOX */}
           <div className=" d-flex justify-content-center">
@@ -304,7 +303,7 @@ const handleImageUpload = async (e) => {
                   <tr>
                     <td rowSpan="3" style={{ width: "150px", verticalAlign: "top" }}>
                       <div
-                      className="image-preview"
+                        className="image-preview"
                         onClick={() => setShowOptionModal(true)}
                         style={{
                           width: "100px",
@@ -316,7 +315,7 @@ const handleImageUpload = async (e) => {
                           display: "flex",
                           justifyContent: "center",
                           alignItems: "center"
-                      
+
                         }}
                       >
                         {preview ? (
@@ -577,7 +576,7 @@ const handleImageUpload = async (e) => {
       {/* IMAGE OPTION MODAL */}
       {showOptionModal && (
         <div
-          onClick={() => setShowOptionModal(false)}   
+          onClick={() => setShowOptionModal(false)}
           style={{
             position: "fixed",
             inset: 0,
@@ -589,8 +588,8 @@ const handleImageUpload = async (e) => {
           }}
         >
           <div
-            onClick={(e) => e.stopPropagation()}  
-            
+            onClick={(e) => e.stopPropagation()}
+
             style={{
               width: 500,
               background: "white",
