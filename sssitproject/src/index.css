@@ -1767,7 +1767,7 @@ input::placeholder {
     border: 2px solid rgba(255, 255, 255, 0.15) !important;
     border-radius: 20px !important;
     padding: 18px 25px !important;
-    color: #ffffff !important;
+    color: #000000 !important;
     font-weight: 500 !important;
     transition: all 0.4s ease !important;
     backdrop-filter: blur(10px);
@@ -1775,7 +1775,7 @@ input::placeholder {
 }
 
 .admin-input::placeholder {
-    color: rgba(255, 255, 255, 0.6) !important;
+    color: rgba(0, 0, 0, 0.6) !important;
 }
 
 .admin-input:focus {
