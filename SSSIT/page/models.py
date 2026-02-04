@@ -7,7 +7,7 @@ from datetime import date
 class Course(models.Model):
     name = models.CharField(max_length=100, unique=True)
 
-    def str(self):
+    def __str__(self):
         return self.name
     
 
@@ -19,7 +19,8 @@ class Student(models.Model):
         validators=[RegexValidator(r'^[A-Za-z ]+$', 'Only letters and spaces are allowed.')]
     )
     regno = models.PositiveIntegerField(
-        validators=[MinValueValidator(1)]
+        validators=[MinValueValidator(1)],
+        unique=True
     )
     batchtime = models.CharField(max_length=30,null=True, blank=True)
 
@@ -71,7 +72,7 @@ class Student(models.Model):
     total_fees = models.PositiveIntegerField(default=0)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def str(self):
+    def __str__(self):
         return f"{self.studentname} ({self.regno})"
     
 
@@ -88,7 +89,7 @@ class Faculty(models.Model):
     )
     subjects = models.JSONField(default=list, blank=True)
 
-    def str(self):
+    def __str__(self):
         return f"{self.faculty_name} ({self.batch_details})"
 
 
@@ -99,7 +100,7 @@ class Batch(models.Model):
     batch_time = models.CharField(max_length=20, null=True, blank=True)
     subject = models.CharField(max_length=100, blank=True, null=True)
 
-    def str(self):
+    def __str__(self):
         return f"{self.faculty.faculty_name} — {self.label}"
 
 
@@ -112,7 +113,7 @@ class Break(models.Model):
     class Meta:
         ordering = ['-from_date']
 
-    def str(self):
+    def __str__(self):
         return f"{self.student.studentname} ({self.from_date} - {self.to_date})"
 
 
@@ -131,7 +132,7 @@ class FeeReceipt(models.Model):
 
     date = models.DateField(default=date.today)
 
-    def _str_(self):
+    def __str__(self):
         return f"Receipt {self.receipt_no} - {self.student.studentname}"
 
     class Meta:
@@ -171,19 +172,6 @@ class FeeReceipt(models.Model):
 
         super().save(update_fields=["paid_fees", "due_fees"])
 
-    def delete(self, *args, **kwargs):
-        student = self.student
-        super().delete(*args, **kwargs)
-
-        receipts = FeeReceipt.objects.filter(student=student)
-        total_paid = sum(r.amount for r in receipts)
-
-        for r in receipts:
-            r.paid_fees = total_paid
-            r.due_fees = max(r.total_fees - total_paid, 0)
-            r.save(update_fields=["paid_fees", "due_fees"])
-
-    
     def delete(self, *args, **kwargs):
         student = self.student
         super().delete(*args, **kwargs)
