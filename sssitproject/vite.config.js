@@ -11,7 +11,7 @@ export default defineConfig({
   ],
 
   // IMPORTANT: must match repo name exactly
-  base: "/",
+  base: "./",
 
   build: {
     target: "es2018",
@@ -61,6 +61,7 @@ export default defineConfig({
   // Development server optimizations
   server: {
     hmr: true,
+    port: 3000,
   },
 
   // Preview server optimizations  
